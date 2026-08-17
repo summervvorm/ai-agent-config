@@ -1,0 +1,11 @@
+# secrets - never commit
+secrets.env
+backups/
+
+# local caches / runtime
+node_modules/
+.cache/
+*.log
+
+# git
+.git/

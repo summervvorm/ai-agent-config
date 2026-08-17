@@ -1,0 +1,36 @@
+// Zed settings.json fragment — merge into ~/.config/zed/settings.json
+// (Zed >= 0.163 supports "mcp" array; also used by zcode-style workflows)
+{
+  "mcp": [
+    {
+      "name": "mysql",
+      "command": "npx.cmd",
+      "args": ["-y", "@benborla29/mcp-server-mysql"],
+      "env": {
+        "MYSQL_HOST": "mysql.test.xhthome.com",
+        "MYSQL_PORT": "3306",
+        "MYSQL_USER": "root",
+        "MYSQL_PASS": "__MYSQL_PASS__",
+        "MYSQL_DB": "xht_scm",
+        "ALLOW_INSERT_OPERATION": "false",
+        "ALLOW_UPDATE_OPERATION": "false",
+        "ALLOW_DELETE_OPERATION": "false"
+      }
+    },
+    {
+      "name": "mcp-obsidian",
+      "command": "npx.cmd",
+      "args": ["-y", "obsidian-mcp-server"],
+      "env": {
+        "OBSIDIAN_API_KEY": "__OBSIDIAN_API_KEY__",
+        "OBSIDIAN_BASE_URL": "https://127.0.0.1:27124",
+        "OBSIDIAN_VERIFY_SSL": "false"
+      }
+    },
+    {
+      "name": "gitnexus",
+      "command": "gitnexus.cmd",
+      "args": ["mcp"]
+    }
+  ]
+}

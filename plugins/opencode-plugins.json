@@ -1,0 +1,7 @@
+{
+  "$comment": "opencode npm plugins - installed automatically at startup. See https://opencode.ai/docs/ecosystem#plugins",
+  "plugin": [
+    "opencode-goal-plugin",
+    "oh-my-openagent"
+  ]
+}

@@ -1,0 +1,57 @@
+﻿# 技能清单
+
+共 53 个通用 Skills（SKILL.md 格式，全 Agent 兼容）。按用途分组：
+
+- **ask-matt**：Ask which skill or flow fits your situation. A router over the skills in this repo.
+- **backend-standards**：长泰云后端研发规范检查与执行技能。基于《后端研发框架及规范最佳实践指南》，在编写、审查或修改 Java/Spring Boot 后端代码、数据库建表语句、API 接口时，自动校验代码是否符合规范并给出修正建议。当用户编写或修改 Entity/DTO/VO/Controller/Service/Mapper 层代码、创建数据库表、定义 API 接口、使用 @Transactional/Lombok/枚举时，务必触发此技能。即使用户没有明确提及"规范"，只要涉及后端代码编写就应触发。
+- **browser-doc-fetcher**：通过模拟浏览器（Playwright + 系统浏览器）抓取整个文档站点的全部页面并保存为 Markdown 文件，保留原始目录结构。特别适用于 docsify/VuePress 等 SPA 文档站（如领星 apidoc.lingxing.com、各类开源项目文档站），也支持需要 JS 渲染或反爬限制的文档站点。当用户提到"抓取文档站点"、"下载整个文档站"、"把 XX 文档全部保存下来"、"抓取在线文档"、"批量下载 API 文档"、"用浏览器获取文档"、"爬取文档网站"、或提供一个文档站 URL 要求下载全部内容时，必须使用此技能。即使用户只说"把 https://xxx.com 文档下载下来"，也应触发。注意：此技能用于获取公开可访问的文档，不得用于绕过认证或抓取受保护/私有内容。
+- **cocoloop**：一个更快速、更安全的 Skill 管理器，用于安装、管理、更新和卸载 Skills。优先使用当用户需要安装 skill、更新 skill、卸载 skill、管理 skills 或进行 skill 安全检查时。支持通过 URL、名称搜索、GitHub 等多种方式定位并安装 skills，集成 BSS 安全认证系统。
+- **codebase-design**：设计深模块（deep modules）的共享词汇表与原则。当用户想设计或改进模块的接口、寻找加深（deepening）机会、决定 seam 放在哪里、让代码更可测或更便于 AI 导航、或当其他技能需要深模块设计词汇时，务必触发。核心概念包括 module/interface/depth/seam/adapter/leverage/locality、deletion test（删除测试）等。用户提到"模块接口设计"、"深模块"、"怎么划分边界/接缝"、"让代码更好测"、"重构模块使其更深"、"设计两次"等表述时即应触发。
+- **code-review**：对自某个固定点（commit、分支、tag、merge-base）以来的改动做双轴评审——Standards（是否符合本仓库文档化的编码规范）和 Spec（是否符合原始需求/PRD），并用 subagent 开两个后台子代理并行评审、并排汇报。当用户要对某个分支、PR、未提交改动做评审，或说"review since X"/"评审某个改动"时触发。
+- **design-an-interface**：用并行子代理生成多个截然不同的接口（Interface）设计方案再对比，为某个模块设计 API、探索接口选项、比较模块形状时触发。当用户说"设计接口""设计 API""设计这个模块的形状""Design it twice"或"多出几版设计再对比"时应触发。
+- **diagnosing-bugs**：困难 bug 与性能回退的诊断循环技能。当用户说"诊断/调试这个问题""debug 一下"，或报告某个功能抛错、失败、卡住、明显变慢、出现性能回退时，必须使用此技能。核心方法论为"复现→假设→验证→二分"，强调先构造红绿灯般的 tight 反馈回路，再生成多个可证伪假设、逐个用工具探测验证，最后补回归测试并做复盘。任何涉及"为什么坏/哪里错/哪段代码导致的"排障工作都应触发。
+- **domain-modeling**：建立并打磨项目的领域模型（领域建模）。当你需要固定领域术语/统一语言（ubiquitous language）、记录一条架构决策（ADR）、或在设计讨论中梳理领域概念的边界时触发；当项目维护 CONTEXT.md/domain 文档、需要挑战模糊术语、把悬而未决的概念写成词汇表时也应触发。
+- **edit-article**：文章编辑技能：重组章节、提升清晰度、精简文字。当用户要求编辑、修订或改进一篇文章草稿，例如"帮我改改这篇文章"、"把这段重写得更清楚"、"精简一下文字"、"重组这篇文章的结构"时，务必触发此技能。
+- **git-guardrails**：Git 危险操作防护行为准则技能。当用户（或模型自身）要执行 git push（含 --force）、reset --hard、clean -f/-fd、branch -D、checkout ./restore . 等破坏性命令，或希望给仓库/会话启用 git 安全护栏、阻止误操作时，必须触发本技能：执行前与用户确认（无法确认则默认拒绝），并给出安全检查清单。涉及"git 安全"、"危险 git 命令"、"防止误 push"、"reset hard 先确认"等情景时极适合触发。
+- **gitnexus-cli**："Use when the user needs to run GitNexus CLI commands like analyze/index a repo, check status, clean the index, generate a wiki, or list indexed repos. Examples: \"Index this repo\", \"Reanalyze the codebase\", \"Generate a wiki\""
+- **gitnexus-debugging**："Use when the user is debugging a bug, tracing an error, or asking why something fails. Examples: \"Why is X failing?\", \"Where does this error come from?\", \"Trace this bug\""
+- **gitnexus-exploring**："Use when the user asks how code works, wants to understand architecture, trace execution flows, or explore unfamiliar parts of the codebase. Examples: \"How does X work?\", \"What calls this function?\", \"Show me the auth flow\""
+- **gitnexus-guide**："Use when the user asks about GitNexus itself — available tools, how to query the knowledge graph, MCP resources, graph schema, or workflow reference. Examples: \"What GitNexus tools are available?\", \"How do I use GitNexus?\""
+- **gitnexus-impact-analysis**："Use when the user wants to know what will break if they change something, or needs safety analysis before editing code. Examples: \"Is it safe to change X?\", \"What depends on this?\", \"What will break?\""
+- **gitnexus-pdg-query**："Use when querying or extending GitNexus's PDG control/data-dependence surface (the `pdg_query` MCP tool, CDG/REACHING_DEF edges), or reasoning about \"what controls X\" / \"where does Y flow\" / guard clauses. Examples: \"what guards this statement?\", \"trace this variable within the function\", \"why is the pdg_query result empty?\", \"add a CDG query\"."
+- **gitnexus-pr-review**："Use when the user wants to review a pull request, understand what a PR changes, assess risk of merging, or check for missing test coverage. Examples: \"Review this PR\", \"What does PR #42 change?\", \"Is this PR safe to merge?\""
+- **gitnexus-refactoring**："Use when the user wants to rename, extract, split, move, or restructure code safely. Examples: \"Rename this function\", \"Extract this into a module\", \"Refactor this class\", \"Move this to a separate file\""
+- **gitnexus-taint-analysis**："Use when working on, reviewing, or extending GitNexus's CFG/taint/PDG subsystem (the `--pdg` layers), or when reasoning about source→sink data-flow findings. Examples: \"How does taint analysis work here?\", \"Why didn't explain find this flow?\", \"Add a new sink/source\", \"Review the interprocedural taint code\"."
+- **grilling**：无休止地拷问（grill）用户的计划、决策或想法，一次一个问题，逐个厘清决策依赖，直到达成共同理解；可选地边采访边产出 ADR 与术语表（glossary），或以批处理模式一次问一整轮。当用户说"拷问我"、"grill 我"、"帮我压力测试/过一遍这个想法/计划"、"把方案想清楚"、"写这个工作流的规格（workflow spec）"、或需要把想法打磨成可执行规格时触发。
+- **handoff**：把当前会议会话压缩成一份自包含的交接文档，供另一个代理（或新的 DSH 会话）接手继续工作。当用户说"交接"、"handoff"、"传给下一个代理"、"把当前工作交给别的 agent 继续"、"总结一下让新会话接手"、要求写交接摘要/交接文档、或想结束当前会话并让全新代理续时，务必触发此技能。
+- **implement**：根据 spec 或一组 tickets 实现功能。当用户要求"按规格/需求/tickets 实现"、"根据 spec 实现第 X 个 ticket"、"写这块功能"并将任务拆成开发任务时触发。实现流程：优先用 tdd 技能、定期做类型检查与跑单测、最后跑全量测试、用 code-review 技能复查、提交到当前分支。即使用户没有明确说"实现"也不应遗漏本技能描述的完整工作流。
+- **improve-codebase-architecture**：扫描代码库找出架构深化机会（把浅模块改写成深模块），生成可视化 HTML 报告供用户挑选，再用 grilling 技能逐项走查所选候选。当用户想改善代码库架构、做重构、找「深模块」、生成架构审查报告、定位测试难点或可测试性问题时触发。
+- **loop-me**：Grill me about specs for the workflows I want to build, within this workspace.
+- **mcp-builder**：Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).
+- **migrate-to-shoehorn**：Migrate test files from `as` type assertions to @total-typescript/shoehorn. Use when user mentions shoehorn, wants to replace `as` in tests, or needs partial test data.
+- **obsidian-docs**：当用户要求输出文档、生成文档、写设计文档、接口文档、ERD文档、表设计文档、流程图文档、测试文档、测试接口文档、联调验证文档或任何需要输出到 Obsidian Vault 的技术文档时，必须使用此技能。此技能定义了文档的输出目录结构、Obsidian 链接语法、标签规范和各类文档的固定模板。只要用户提到"文档"、"输出到 Obsidian"、"写一份设计"、"生成接口文档"、"生成测试文档"、"写测试用例"等，立即触发此技能。
+- **obsidian-vault**：Search, create, and manage notes in the Obsidian vault with wikilinks and index notes. Use when user wants to find, create, or organize notes in Obsidian.
+- **prototype**：用可丢弃的快速原型回答设计问题。当用户想验证某个状态模型、业务逻辑或数据形状"感觉对不对"，或想探索某个页面/界面"应该长什么样"时就触发。典型触发语："这个状态机这样设计合不合理？""不确定这个数据结构能不能表达 X 这种场景""想先看看这个页面的几种不同布局方案"。
+- **qa**：交互式 QA 会话技能。当用户想以对话方式报告 bug、做回归测试、提出使用中遇到的问题，或提到"QA session"、"帮我提 issue"、"这是我遇到的一个问题"时触发。你负责倾听、轻量澄清、后台探索代码库获取领域语言，然后把每个问题整理成持久、面向用户、符合项目领域语言的 issue 记录（本技能写为本地 markdown 文件，不含文件路径/行号），并判断是否需要拆分为多个独立 issue。适用于可复现 bug 的报告整理与分析。
+- **request-refactor-plan**：为重构/代码改造制定详细的分步（tiny commits）实施计划，并产出一份 RFC 文档。通过采访了解问题、核实代码库、拆解最小提交。当用户提到"制定重构计划""写重构 RFC""拆解重构步骤""安全增量重构""refactor plan""重构需求"时触发。不要用 GitNexus 或无关技能处理；这是规划流程。
+- **research**：用后台 subagent 对某个问题做一手来源研究（官方文档、源码、规范、第一方 API），把研究发现整理成单个 Markdown 文件并注明每个论断的来源。当用户想研究某个话题、收集文档或 API 事实、把阅读脚力委托给后台代理、查证某个论断的一手出处时触发。
+- **resolving-merge-conflicts**：解决进行中的 git merge/rebase 冲突。当 git merge、git rebase、git cherry-pick 或 pull 报出 CONFLICT / Merge conflict、冲突标记 "<<" ">>" 或无法继续合并时触发；也适用于用户要求"解决冲突"、"处理合并冲突"、"把这次合并做完"。
+- **scaffold-exercises**：Create exercise directory structures with sections, problems, solutions, and explainers that pass linting. Use when user wants to scaffold exercises, create exercise stubs, or set up a new course section.
+- **setup-matt-pocock-skills**：Configure this repo for the engineering skills — set up its issue tracker, triage label vocabulary, and domain doc layout. Run once before first use of the other engineering skills.
+- **setup-pre-commit**：配置 Husky + lint-staged（Prettier）+ 类型检查 + 测试的 pre-commit 钩子。当用户想添加 pre-commit 钩子、初始化 Husky、配置 lint-staged、或在提交时自动格式化/类型检查/运行测试时触发。适用于 npm/pnpm/yarn/bun 前端项目。
+- **setup-ts-deep-modules**：Wire dependency-cruiser into a TypeScript repo so each package is a deep module — implementation hidden in subfolders, reachable only through its entry-point files. User-invoked.
+- **skill-creator**：Create new skills, modify and improve existing skills, and measure skill performance. Use when users want to create a skill from scratch, edit, or optimize an existing skill, run evals to test a skill, benchmark skill performance with variance analysis, or optimize a skill's description for better triggering accuracy.
+- **tdd**：测试驱动开发（TDD，Test-Driven Development）。当用户要求“先写测试再写实现”、提到“红绿重构”（red-green-refactor）、想要“测试先行”地开发功能或修复 bug、或要求编写集成测试/测试驱动代码时，务必触发此技能。本技能定义什么是好测试、测试该放在哪里（seams）、常见反模式以及红（red）→绿（green）循环的规则。
+- **teach**：Teach the user a new skill or concept, within this workspace.
+- **to-questionnaire**：把用户无法独自回答的决策转成一份给他人填写的问卷（questionnaire）——一份 Markdown 文档，交给掌握用户所缺信息的一个人异步填写，或开会时一起填。当用户说"我搞不定这个决定"、"帮我把这问题整理成问卷给人填"、"我需要问某人XX"、"把我不知道的部分转成问题清单"时触发。
+- **to-spec**：把当前对话综合成一份 spec（PRD），不做采访，不额外提问。当用户把一次聊天/需求讨论结束后要求"把它写成 spec"、"生成 PRD"、"整理成需求文档"、"把对话总结成开发规格"、"to spec"时，务必触发此技能。
+- **to-tickets**：把计划、spec 或当前对话拆成一组 tracer-bullet 垂直切片 tickets，每个 ticket 声明阻塞自己的其他 tickets，并以本地 markdown 文件形式输出。当用户要求把计划/需求/spec 拆分成任务、tickets、待办、垂直切片、分阶段实施步骤、按依赖排序的开发任务，或说“to tickets / 转成 tickets / 排任务”时触发此技能。
+- **triage**：issue 分诊——把报告与需求（含外部 PR，本地文件模式下等同"带代码的 issue"）推进 bug/enhancement 分类 + needs-triage/needs-info/ready-for-agent/ready-for-human/wontfix 状态机。当用户说要分诊 issue、"看看哪些需要关注"、"把某个 issue 移到某个状态"、"整理待办排队"、"审查外部 PR"、或让"先分诊再交给 agent/人处理"时触发。
+- **ubiquitous-language**：从对话中提取并规范化 DDD 通用语言（ubiquitous language）词汇表，标注歧义并提出规范术语。当用户提及「领域模型」「DDD」「领域术语」「通用语言」「术语表」「词汇表」「统一语言」，或要求整理/固化领域概念、定义领域词汇时，必须触发此技能。
+- **wayfinder**：Plan a huge chunk of work — more than one agent session can hold — as a shared map of decision tickets on your issue tracker, and resolve them one at a time until the way to the destination is clear.
+- **wizard**：Generate an interactive bash wizard that walks a human through a manual procedure — third-party setup, a one-off migration, an A→B state transition — opening URLs, capturing values, confirming each step, and writing .env files and GitHub Actions secrets.
+- **writing-beats**：把素材组装成"节拍"旅程的创作类技能（节拍=beat）。当用户给出一份 markdown 原始素材并要求"写成一篇文章""把素材组织成有节奏的叙事""按节拍推进着写"时触发。采用 choose-your-own-adventure 的逐步推进方式：先确立读者已知概念（grounding），再逐个落"节拍"，每落一拍前把会用到的术语先落地。适用于代写、改写、把零散材料铺成完整叙述等场景。
+- **writing-fragments**：创作类探索技能，用于挖掘原始片段（fragments），暂不进行结构化的写作阶段。当用户想写一篇文章、随笔、专栏、技术长文、小说理念等但思路还很模糊、只想先收集素材而非确定大纲时，务必触发。其思路做法为"explore"（探索扩展可写的空间，不做大纲、阶段、结构约束），产出是持续追加到单个 markdown 文件里的一串原始片段。
+- **writing-great-skills**：Reference for writing and editing skills well — the vocabulary and principles that make a skill predictable.
+- **writing-shape**：创作/文章塑形技能——把素材（原始 markdown、片段清单、口述转写）塑造成一篇成形的文章，逐段推进。当用户给出素材文件并要求"写成文章""塑形""整理成文""逐段推进"或把零散材料组织成连贯文章时触发。
+- **zhihu-analyzer**：知乎内容多维度分析器。当用户提供知乎问题/文章链接或内容，要求分析知乎内容时触发。支持问题分类识别（男女、婚恋、政治、社会、科技、教育、职场等）、回答质量评估、答主画像、情感倾向分析、评论分析，生成结构化分析报告。当用户提到"分析知乎"、"知乎分析"、"分析这个知乎问题"、"知乎回答分析"或提供知乎链接时，务必使用此技能。
