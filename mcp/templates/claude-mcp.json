@@ -32,6 +32,11 @@
       "command": "gitnexus.cmd",
       "args": ["mcp"]
     },
+    "toolknit": {
+      "type": "stdio",
+      "command": "toolknit.cmd",
+      "args": ["mcp", "serve"]
+    },
     "search-service": {
       "type": "stdio",
       "command": "C:\\Users\\20301\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",

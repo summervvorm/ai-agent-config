@@ -46,6 +46,7 @@ powershell -ExecutionPolicy Bypass -File install.ps1 -Agent opencode   # 或 cod
 | MCP: mysql | ✅ | ✅ | ✅ | 手动合并 fragment |
 | MCP: obsidian | ✅ | — | ✅ | 手动合并 |
 | MCP: gitnexus | ✅ | 需 `gitnexus setup` | ✅ | 手动合并 |
+| MCP: toolknit | ✅ | — | ✅ | — |
 | MCP: search-service | — | — | ✅ | — |
 | 插件 | npm 插件（goal/oh-my-openagent） | — | 插件市场手动 | — |
 

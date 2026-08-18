@@ -35,6 +35,10 @@
     "gitnexus": {
       "type": "local",
       "command": ["gitnexus.cmd", "mcp"]
+    },
+    "toolknit": {
+      "type": "local",
+      "command": ["toolknit.cmd", "mcp", "serve"]
     }
   },
   "provider": {
