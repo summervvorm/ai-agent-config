@@ -4,7 +4,7 @@
  *
  * 用法:
  *   node fetch_docsify.js --site https://apidoc.lingxing.com \
- *     --out "C:/Users/20301/Documents/Obsidian Vault/文档/第三方平台接口文档/领星" \
+ *     --out "C:/Users/<USER>/Documents/Obsidian Vault/文档/第三方平台接口文档/领星" \
  *     [--sidebar _sidebar.md] [--concurrency 5] [--browser msedge]
  *
  * 参数:

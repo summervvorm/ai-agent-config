@@ -1,8 +1,8 @@
 # sync-skills.ps1 - Re-sync skills from repo to all installed agents
-# Usage: powershell -ExecutionPolicy Bypass -File scripts\sync-skills.ps1 [-Agent opencode|codex|claude|all]
+# Usage: powershell -ExecutionPolicy Bypass -File scripts\sync-skills.ps1 [-Agent dsh|opencode|codex|claude|all]
 
 param(
-    [ValidateSet('opencode', 'codex', 'claude', 'all')]
+    [ValidateSet('dsh', 'opencode', 'codex', 'claude', 'all')]
     [string]$Agent = 'all'
 )
 
@@ -12,10 +12,11 @@ $HomeDir = $env:USERPROFILE
 
 if (-not (Test-Path $SkillsSrc)) { Write-Host "[ERROR] skills dir missing: $SkillsSrc" -ForegroundColor Red; exit 1 }
 
-$targets = if ($Agent -eq 'all') { @('opencode', 'codex', 'claude') } else { @($Agent) }
+$targets = if ($Agent -eq 'all') { @('dsh', 'opencode', 'codex', 'claude') } else { @($Agent) }
 
 foreach ($ag in $targets) {
     $dest = switch ($ag) {
+        'dsh'      { Join-Path $HomeDir '.agents\skills' }
         'opencode' { Join-Path $HomeDir '.agents\skills' }
         'codex'    { Join-Path $HomeDir '.codex\skills' }
         'claude'   { Join-Path $HomeDir '.claude\skills' }

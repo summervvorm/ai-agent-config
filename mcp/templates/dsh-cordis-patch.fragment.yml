@@ -1,0 +1,112 @@
+# ============================================================
+# DSH (DeepSeek Harness) MCP fragment
+# Target: ~/.dsh/profiles/desktop/cordis.patch.yml  (the `insert:` block)
+#
+# !! IMPORTANT !!
+#   * Merge the entries below into the `insert:` list of your own
+#     cordis.patch.yml. Do NOT overwrite the whole file - it also holds
+#     model / UI plugin config.
+#   * Every secret is read from the process environment via `!!js`, so no
+#     credential is ever written into this file.
+#   * transport: stdio for local servers, streamable-http for remote MCP.
+# ============================================================
+
+- insert:
+    # Read-only test database (writes disabled).
+    - id: mcp-mysql
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: mysql
+        transport: stdio
+        command: npx.cmd
+        args: [ '-y', '@benborla29/mcp-server-mysql' ]
+        failOnStartupError: false
+        env:
+          MYSQL_HOST: __MYSQL_HOST__
+          MYSQL_PORT: '3306'
+          MYSQL_USER: __MYSQL_USER__
+          MYSQL_PASS: !!js process.env.MYSQL_PASS
+          MYSQL_DB: __MYSQL_DB__
+          ALLOW_INSERT_OPERATION: 'false'
+          ALLOW_UPDATE_OPERATION: 'false'
+          ALLOW_DELETE_OPERATION: 'false'
+
+    # Code graph: query / impact analysis / refactoring (read-only).
+    - id: mcp-gitnexus
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: gitnexus
+        transport: stdio
+        command: 'C:\Users\<USER>\AppData\Roaming\npm\gitnexus.cmd'
+        args: [ 'mcp' ]
+        toolCallTimeoutMs: 120000
+        failOnStartupError: false
+        env:
+          GITNEXUS_MCP_READ_ONLY: '1'
+          GITNEXUS_MCP_DEFAULT_MAX_TOKENS: '8000'
+          GITNEXUS_FTS_CJK_SEGMENTATION: bigram
+
+    # Obsidian local REST API. The wrapper script sets base_url / verify_ssl,
+    # so only the API key is needed here.
+    - id: mcp-obsidian
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: obsidian
+        transport: stdio
+        command: 'C:\Users\<USER>\.mcp\mcp-obsidian.cmd'
+        failOnStartupError: false
+        env:
+          OBSIDIAN_API_KEY: !!js process.env.OBSIDIAN_API_KEY
+
+    # dev database. NOTE: the wrapper enables write + DDL -> writable!
+    - id: mcp-mysql-dev
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: mysql-dev
+        transport: stdio
+        command: 'C:\Users\<USER>\.mcp\mysql-dev.cmd'
+        failOnStartupError: false
+        env:
+          MYSQL_DEV_PASS: !!js process.env.MYSQL_DEV_PASS
+
+    # test database. NOTE: the wrapper enables write + DDL -> writable!
+    - id: mcp-mysql-test
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: mysql-test
+        transport: stdio
+        command: 'C:\Users\<USER>\.mcp\mysql-test.cmd'
+        failOnStartupError: false
+        env:
+          MYSQL_TEST_PASS: !!js process.env.MYSQL_TEST_PASS
+
+    # GitHub official remote MCP (streamable-http).
+    # The bearer token is read from the environment - never inline it.
+    - id: mcp-github
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: github
+        transport: streamable-http
+        url: https://api.githubcopilot.com/mcp/
+        failOnStartupError: false
+        headers:
+          Authorization: !!js `Bearer ${process.env.GITHUB_MCP_TOKEN}`
+          X-MCP-Toolsets: 'default,actions'
+
+# ------------------------------------------------------------
+# Not synced: Codex `node_repl`.
+# It binds to the Codex desktop runtime binary plus a per-session named pipe
+# (SKY_CUA_NATIVE_PIPE_DIRECTORY=\\.\pipe\codex-computer-use-<session-uuid>),
+# so it cannot be reused from the DSH process.
+# ------------------------------------------------------------
+#     - id: mcp-node-repl
+#       name: '@deepseek-ai/dsh-mcp-client'
+#       config:
+#         serverName: node_repl
+#         transport: stdio
+#         command: 'C:\Users\<USER>\AppData\Local\OpenAI\Codex\runtimes\cua_node\<hash>\bin\node_repl.exe'
+#         toolCallTimeoutMs: 120000
+#         env:
+#           NODE_REPL_NODE_MODULE_DIRS: '...\bin\node_modules'
+#           NODE_REPL_NODE_PATH: '...\bin\node.exe'
+#           CODEX_HOME: 'C:\Users\<USER>\.codex'

@@ -40,13 +40,13 @@ Bash（Git Bash）里 `/c/Users/...`、`/tmp/...` 是合法路径，但 **Node.j
 所有传给 Node 的路径用 **Windows 格式**（正斜杠即可）：
 ```js
 // 错
-const OUT_ROOT = '/c/Users/20301/Documents/...';
+const OUT_ROOT = '/c/Users/<USER>/Documents/...';
 // 对
-const OUT_ROOT = 'C:/Users/20301/Documents/...';
+const OUT_ROOT = 'C:/Users/<USER>/Documents/...';
 ```
 从 Bash 传参时用 `cygpath -w` 转换：
 ```bash
-WIN_OUT=$(cygpath -w "/c/Users/20301/Documents/Obsidian Vault/文档/...")
+WIN_OUT=$(cygpath -w "/c/Users/<USER>/Documents/Obsidian Vault/文档/...")
 node fetch_docsify.js --out "$WIN_OUT" ...
 ```
 

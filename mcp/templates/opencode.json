@@ -2,70 +2,136 @@
   "$schema": "https://opencode.ai/config.json",
   "plugin": [
     "opencode-goal-plugin",
-    "oh-my-openagent"
+    [
+      "dsh-model-proxy",
+      { "config": "C:/project/dsh-model-proxy/model-proxy.yaml" }
+    ]
   ],
   "mcp": {
-    "mysql": {
-      "type": "local",
-      "command": ["npx.cmd", "-y", "@benborla29/mcp-server-mysql"],
-      "enabled": true,
-      "environment": {
-        "MYSQL_HOST": "mysql.test.xhthome.com",
-        "MYSQL_PORT": "3306",
-        "MYSQL_USER": "root",
-        "MYSQL_PASS": "{env:MYSQL_PASS}",
-        "MYSQL_DB": "xht_scm",
-        "ALLOW_INSERT_OPERATION": "false",
-        "ALLOW_UPDATE_OPERATION": "false",
-        "ALLOW_DELETE_OPERATION": "false"
-      }
-    },
     "mcp-obsidian": {
       "type": "local",
       "command": ["npx.cmd", "-y", "obsidian-mcp-server"],
       "enabled": true,
       "environment": {
+        "MCP_LOG_LEVEL": "warn",
+        "MCP_TRANSPORT_TYPE": "stdio",
         "OBSIDIAN_API_KEY": "{env:OBSIDIAN_API_KEY}",
         "OBSIDIAN_BASE_URL": "https://127.0.0.1:27124",
-        "OBSIDIAN_VERIFY_SSL": "false",
-        "MCP_TRANSPORT_TYPE": "stdio",
-        "MCP_LOG_LEVEL": "warn"
+        "OBSIDIAN_VERIFY_SSL": "false"
       }
     },
-    "gitnexus": {
+    "mysql-dev": {
       "type": "local",
-      "command": ["gitnexus.cmd", "mcp"]
+      "command": ["npx.cmd", "-y", "@benborla29/mcp-server-mysql"],
+      "enabled": true,
+      "environment": {
+        "MYSQL_HOST": "{env:MYSQL_DEV_HOST}",
+        "MYSQL_PORT": "3306",
+        "MYSQL_USER": "{env:MYSQL_USER}",
+        "MYSQL_PASS": "{env:MYSQL_DEV_PASS}",
+        "MYSQL_DB": "{env:MYSQL_DB}",
+        "MYSQL_SSL": "true",
+        "MYSQL_TIMEZONE": "+08:00",
+        "ALLOW_DDL_OPERATION": "true",
+        "ALLOW_INSERT_OPERATION": "true",
+        "ALLOW_UPDATE_OPERATION": "true",
+        "ALLOW_DELETE_OPERATION": "true"
+      }
+    },
+    "mysql-test": {
+      "type": "local",
+      "command": ["npx.cmd", "-y", "@benborla29/mcp-server-mysql"],
+      "enabled": true,
+      "environment": {
+        "MYSQL_HOST": "{env:MYSQL_TEST_HOST}",
+        "MYSQL_PORT": "3306",
+        "MYSQL_USER": "{env:MYSQL_USER}",
+        "MYSQL_PASS": "{env:MYSQL_TEST_PASS}",
+        "MYSQL_DB": "{env:MYSQL_DB}",
+        "MYSQL_SSL": "true",
+        "MYSQL_TIMEZONE": "+08:00",
+        "ALLOW_DDL_OPERATION": "true",
+        "ALLOW_INSERT_OPERATION": "true",
+        "ALLOW_UPDATE_OPERATION": "true",
+        "ALLOW_DELETE_OPERATION": "true"
+      }
     },
     "toolknit": {
       "type": "local",
-      "command": ["toolknit.cmd", "mcp", "serve"]
+      "command": ["toolknit.cmd", "mcp", "serve"],
+      "enabled": true
     }
   },
   "provider": {
+    "b-ai": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "apiKey": "{env:B_AI_API_KEY}",
+        "baseURL": "https://api.b.ai/v1",
+        "setCacheKey": true
+      },
+      "models": {
+        "deepseek-v4-flash": { "name": "deepseek-v4-flash", "limit": { "context": 1048756, "output": 131072 } },
+        "deepseek-v4-flash-vision-exp": { "name": "deepseek-v4-flash-vision-exp", "limit": { "context": 1048576, "output": 131072 } },
+        "glm-5.3-flash": { "name": "glm-5.3-flash", "limit": { "context": 1048576, "output": 131072 } },
+        "qwen3.8-flash": { "name": "qwen3.8-flash", "limit": { "context": 1048576, "output": 131072 } }
+      }
+    },
+    "commandcode": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "apiKey": "{env:COMMANDCODE_API_KEY}",
+        "baseURL": "https://api.commandcode.ai/provider/v1",
+        "setCacheKey": true
+      },
+      "models": {
+        "deepseek/deepseek-v4-flash": { "name": "deepseek-v4-flash", "limit": { "context": 1048576, "output": 131068 } },
+        "meta/muse-spark-1.2-contributor": { "name": "muse-spark-1.2-contributor", "limit": { "context": 1048576, "output": 131068 } },
+        "poolside/laguna-s-2.1-free": { "name": "laguna-s-2.1-free", "limit": { "context": 1048576, "output": 131068 } },
+        "xiaomi/mimo-v2.5": { "name": "mimo-v2.5", "limit": { "context": 1048576, "output": 131068 } },
+        "xiaomi/mimo-v2.5-pro": { "name": "mimo-v2.5-pro", "limit": { "context": 1048576, "output": 131068 } },
+        "z-ai/glm-5.3-flash": { "name": "glm-5.3-flash", "limit": { "context": 1048576, "output": 131068 } }
+      }
+    },
+    "justwork": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "apiKey": "{env:JUSTWORK_API_KEY}",
+        "baseURL": "https://api.justwoker.icu/v1/chat/completions",
+        "setCacheKey": true
+      },
+      "models": {
+        "claude-opus-5": { "name": "claude-opus-5", "limit": { "context": 1048576, "output": 131067 } },
+        "claude-opus-5-thinking": { "name": "claude-opus-5-thinking", "limit": { "context": 1048576, "output": 131072 } }
+      }
+    },
     "mimo": {
+      "npm": "@ai-sdk/anthropic",
+      "options": {
+        "apiKey": "{env:MIMO_API_KEY}",
+        "baseURL": "https://token-plan-cn.xiaomimimo.com/anthropic",
+        "setCacheKey": true
+      },
       "models": {
         "mimo-v2-tts": { "name": "" },
         "mimo-v2.5": { "name": "" },
         "mimo-v2.5-pro": { "name": "" }
-      },
-      "npm": "@ai-sdk/openai-compatible",
-      "options": {
-        "apiKey": "{env:MIMO_API_KEY}",
-        "baseURL": "https://api.xiaomimimo.com/v1",
-        "setCacheKey": true
       }
     },
-    "zhipu": {
-      "models": {
-        "astron-code-latest": { "name": "astron-code-latest" },
-        "xopdeepseekv4flash": { "name": "deepseekv4-flash" },
-        "xopglm51": { "name": "GLM-5.1" }
-      },
-      "npm": "@ai-sdk/openai-compatible",
+    "sensenova": {
+      "npm": "@ai-sdk/openai",
       "options": {
-        "apiKey": "{env:ZHIPU_API_KEY}",
-        "baseURL": "https://maas-coding-api.cn-huabei-1.xf-yun.com/v2",
+        "apiKey": "{env:SENSENOVA_API_KEY}",
+        "baseURL": "https://token.sensenova.cn/v1",
         "setCacheKey": true
+      },
+      "models": {
+        "deepseek-v4-flash": { "name": "deepseek-v4-flash", "limit": { "context": 1048576, "output": 131072 } },
+        "deepseek-v4-pro": { "name": "", "limit": { "context": 1048576, "output": 131072 } },
+        "glm-5.2": { "name": "glm-5.2", "limit": { "context": 1048576, "output": 131071 } },
+        "kimi-k3": { "name": "", "limit": { "context": 1048576, "output": 131072 } },
+        "sensenova-6.8-flash-lite": { "name": "sensenova-6.8-flash-lite" },
+        "sensenova-u1-fast": { "name": "sensenova-u1-fast" }
       }
     }
   }

@@ -2,6 +2,9 @@
   "$comment": "opencode npm plugins - installed automatically at startup. See https://opencode.ai/docs/ecosystem#plugins",
   "plugin": [
     "opencode-goal-plugin",
-    "oh-my-openagent"
+    [
+      "dsh-model-proxy",
+      { "config": "C:/project/dsh-model-proxy/model-proxy.yaml" }
+    ]
   ]
 }

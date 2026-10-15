@@ -87,14 +87,14 @@ const browser = await chromium.launch({ headless: true, channel: 'msedge' });
 
 本机是 Windows，Bash（Git Bash）里 `/c/...`、`/tmp/...` 是有效路径，但 **Node.js 不认识这些**——Node 会把 `/tmp/foo.txt` 当成 `C:\tmp\foo.txt`，把 `/c/Users/...` 当成 `C:\c\Users\...`，导致文件写到错误位置（且不报错！）。
 
-**所有传给 Node 脚本的路径必须用 Windows 格式**：`C:/Users/20301/...`（正斜杠在 Node 里没问题）。脚本里的 `OUT_ROOT`、输入文件路径、输出文件路径全部如此。从 Bash 传参时用 `cygpath -w <path>` 转换。
+**所有传给 Node 脚本的路径必须用 Windows 格式**：`C:/Users/<USER>/...`（正斜杠在 Node 里没问题）。脚本里的 `OUT_ROOT`、输入文件路径、输出文件路径全部如此。从 Bash 传参时用 `cygpath -w <path>` 转换。
 
 ## 输出目录约定
 
 默认输出到 Obsidian Vault 的第三方文档目录下，以站点名建子目录：
 
 ```
-C:\Users\20301\Documents\Obsidian Vault\文档\第三方平台接口文档\<站点名>\
+C:\Users\<USER>\Documents\Obsidian Vault\文档\第三方平台接口文档\<站点名>\
 ├── README-导航索引.md
 ├── <分类A>\
 │   └── <文档>.md
@@ -111,7 +111,7 @@ C:\Users\20301\Documents\Obsidian Vault\文档\第三方平台接口文档\<站�
 
 - `scripts/fetch_docsify.js` — docsify 站点抓取主脚本。用法：
   ```bash
-  node scripts/fetch_docsify.js --site https://apidoc.lingxing.com --out "C:/Users/20301/Documents/Obsidian Vault/文档/第三方平台接口文档/领星" --concurrency 5
+  node scripts/fetch_docsify.js --site https://apidoc.lingxing.com --out "C:/Users/<USER>/Documents/Obsidian Vault/文档/第三方平台接口文档/领星" --concurrency 5
   ```
   它会自动探测 `_sidebar.md`、提取路径、并发抓取、校验、断点续传。支持 `--sidebar <相对路径>` 自定义 sidebar 路径，`--browser msedge|chrome|chromium` 切换浏览器。
 - `scripts/gen_index.js` — 生成 Obsidian 导航索引。用法：

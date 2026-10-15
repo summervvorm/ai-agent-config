@@ -7,7 +7,7 @@ description: Search, create, and manage notes in the Obsidian vault with wikilin
 
 ## 本机环境（2026-08 更新）
 
-- **Vault 根目录**：`C:\Users\20301\Documents\Obsidian Vault\`
+- **Vault 根目录**：`C:\Users\<USER>\Documents\Obsidian Vault\`
 - **访问方式**：优先通过 **mcp-obsidian MCP 工具**读写，无需直接操作文件系统
 - Obsidian 通过 "REST and MCP server" 插件对外提供 API（`https://127.0.0.1:27124`）
 
@@ -33,7 +33,7 @@ description: Search, create, and manage notes in the Obsidian vault with wikilin
 
 ## MCP 配置与排障备忘（2026-08-17 实测）
 
-- **配置位置**：`C:\Users\20301\.config\opencode\opencode.json` → `mcp.mcp-obsidian`
+- **配置位置**：`C:\Users\<USER>\.config\opencode\opencode.json` → `mcp.mcp-obsidian`
 - **实现**：`npx.cmd -y obsidian-mcp-server`（cyanheads v3.2.12），local stdio transport，由 opencode 自动管理生命周期
 - **端点**：`https://127.0.0.1:27124`（自签名证书）
 - **必须** `OBSIDIAN_VERIFY_SSL=false`（该 server 内建跳过自签证书校验，官方 SDK 层实现，不需动进程级 TLS）

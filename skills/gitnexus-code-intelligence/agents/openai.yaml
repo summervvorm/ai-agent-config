@@ -1,0 +1,4 @@
+interface:
+  display_name: "GitNexus Code Intelligence"
+  short_description: "Use graph context selectively without per-change builds"
+  default_prompt: "Use $gitnexus-code-intelligence to assess this change with the least graph and build overhead that is safe."

@@ -103,7 +103,9 @@ public class OrderVo {
 *   执行系统架构顶层视图包装。**\[强制\]** 响应前端架构协议强制统一为系统全局标准包装类（如 `AjaxResult`, `Result<T>` 或 `TableDataInfo<T>`），并且必须明确指明对应响应实体泛型 `<T>`，禁止使用原始通用类型 `Object`。
     
 
-**🌟 团队最佳应用标杆案例（提取自现有代码）：**
+**\[推荐\]** **前端入参列表字段命名优先以 `List` 结尾**：Req/DTO 中的列表/集合类型字段优先使用 `xxxList`（如 `prePrNoList`、`planNoList`、`opsGroupIdList`、`keywordList`、`storeIdList`）。复数 `s` 结尾（`planNos`、`storeIds`、`skus` 等）**不强制禁止**，存量命名按原样保留、不做批量重命名；新增或改造接口优先采用 `List` 结尾，并保证同一 Req 内命名风格一致。单值与批量成对出现时（`prePrNo` + `prePrNoList`）须在同一 Req 内自解释，并在 `@ApiModelProperty` 描述中写明「多选/集合 + 匹配方式（IN 精确 / 模糊 / OR）」。仅纯内部字段（父行级分页临时入参等，须 `@ApiModelProperty(hidden = true)`）与 `Map` 类型字段不受此约束。
+
+**🌟 团队最佳应用标杆案例（提取自现有代码）：**
 
 ✅ **业务单体及分页处理（案例一：**`LogisticsSupplierController`）： 规范点：严格控制接口全方位权限管理（`@RequiresPermissions`）、日志审计切面（`@Log`）、结合内部自动包装能力实现标准分页返回。
 
